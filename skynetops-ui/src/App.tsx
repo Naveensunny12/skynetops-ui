@@ -15,9 +15,19 @@ function App() {
   else if (page === "apm") content = <APM />;
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", height: "100vh" }}>
       <Sidebar onSelect={setPage} />
-      <div style={{ padding: 30, flex: 1 }}>{content}</div>
+
+      {/* MAIN CONTENT WITH BLUE BACKGROUND */}
+      <div
+        style={{
+          flex: 1,
+          padding: 30,
+          backgroundColor: "#e6f0ff", // ✅ BLUE BACKGROUND
+        }}
+      >
+        {content}
+      </div>
     </div>
   );
 }

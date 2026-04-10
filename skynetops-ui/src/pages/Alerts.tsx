@@ -1,57 +1,30 @@
 import { useEffect, useState } from "react";
-
 const API_BASE = "/api";
 
-type Alert = {
-  severity: string;
-  message: string;
-  resource: string;
-  status: string;
-};
-
 export default function Alerts() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [alerts, setAlerts] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(`${API_BASE}/alerts`)
-      .then(res => res.json())
-      .then(data => {
-        setAlerts(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      .then(r => r.json())
+      .then(setAlerts);
   }, []);
-
-  if (loading) return <p>Loading alerts...</p>;
 
   return (
     <div>
       <h1>Alerts</h1>
-
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={th}>Severity</th>
-            <th style={th}>Message</th>
-            <th style={th}>Resource</th>
-            <th style={th}>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {alerts.map((a, i) => (
-            <tr key={i}>
-              <td style={td}>{a.severity}</td>
-              <td style={td}>{a.message}</td>
-              <td style={td}>{a.resource}</td>
-              <td style={td}>{a.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {alerts.map((a, i) => (
+        <div key={i} style={card}>
+          🔔 <b>{a.severity}</b> – {a.message} ({a.resource})
+        </div>
+      ))}
     </div>
   );
 }
 
-const th = { borderBottom: "1px solid #ddd", padding: 10 };
-const td = { borderBottom: "1px solid #eee", padding: 10 };
+const card = {
+  background: "white",
+  padding: 15,
+  marginBottom: 10,
+  borderRadius: 6,
+};

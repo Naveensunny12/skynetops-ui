@@ -6,21 +6,40 @@ export default function Sidebar({
   return (
     <div
       style={{
-        width: 200,
-        background: "#f3f4f6",
+        width: 220,
+        backgroundColor: "#1e3a8a",
+        color: "white",
         padding: 20,
         height: "100vh",
       }}
     >
-      <h3>SkynetOps</h3>
+      <h2>SkynetOps</h2>
 
-      <button onClick={() => onSelect("overview")}>Overview</button>
-      <br /><br />
-      <button onClick={() => onSelect("alerts")}>Alerts</button>
-      <br /><br />
-      <button onClick={() => onSelect("vms")}>VMs</button>
-      <br /><br />
-      <button onClick={() => onSelect("apm")}>APM</button>
+      <button style={btn} onClick={() => onSelect("overview")}>
+        Overview
+      </button>
+
+      <button style={btn} onClick={() => onSelect("alerts")}>
+        Alerts
+      </button>
+
+      <button style={btn} onClick={() => onSelect("vms")}>
+        VMs
+      </button>
+
+      <button style={btn} onClick={() => onSelect("apm")}>
+        APM
+      </button>
     </div>
   );
 }
+
+const btn = {
+  width: "100%",
+  padding: 10,
+  marginTop: 10,
+  backgroundColor: "#2563eb",
+  color: "white",
+  border: "none",
+  cursor: "pointer",
+};

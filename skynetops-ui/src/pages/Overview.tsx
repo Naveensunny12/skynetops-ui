@@ -16,7 +16,7 @@ export default function Overview() {
     setPingStatus("Pinging...");
     fetch(`${API_BASE}/ping`)
       .then(res => res.text())
-      .then(text => setPingStatus(`✅ Ping response: ${text}`))
+      .then(text => setPingStatus(`✅ Ping: ${text}`))
       .catch(() => setPingStatus("❌ Ping failed"));
   };
 
@@ -24,16 +24,23 @@ export default function Overview() {
     <div>
       <h1>Overview</h1>
 
-      <div style={{ border: "1px solid #ddd", padding: 20, marginBottom: 20 }}>
+      <div style={card}>
         <h3>System Health</h3>
-        <p>Status: {backendStatus}</p>
+        <p>{backendStatus}</p>
       </div>
 
-      <div style={{ border: "1px solid #ddd", padding: 20 }}>
-        <h3>Connectivity Test</h3>
+      <div style={card}>
+        <h3>Connectivity</h3>
         <button onClick={pingBackend}>Ping Backend</button>
         <p>{pingStatus}</p>
       </div>
     </div>
   );
 }
+
+const card = {
+  background: "white",
+  padding: 20,
+  marginBottom: 20,
+  borderRadius: 8,
+};
