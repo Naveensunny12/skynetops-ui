@@ -1,54 +1,23 @@
-import { useEffect, useState } from "react";
-
-const API_BASE ="/api";
+import { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import Overview from "./pages/Overview";
+import Alerts from "./pages/Alerts";
+import VMs from "./pages/VMs";
+import APM from "./pages/APM";
 
 function App() {
-  const [backendStatus, setBackendStatus] = useState("Checking...");
-  const [pingStatus, setPingStatus] = useState("");
+  const [page, setPage] = useState("overview");
 
-  // Health check (runs automatically)
-  useEffect(() => {
-    fetch(`${API_BASE}/health`)
-      .then(() => setBackendStatus("✅ Backend UP"))
-      .catch(() => setBackendStatus("❌ Backend DOWN"));
-  }, []);
-
-  // Ping button
-  const pingBackend = () => {
-    setPingStatus("Pinging...");
-    fetch(`${API_BASE}/ping`)
-      .then(res => res.text())
-      .then(text => setPingStatus(`✅ Ping response: ${text}`))
-      .catch(() => setPingStatus("❌ Ping failed"));
-  };
+  let content;
+  if (page === "overview") content = <Overview />;
+  else if (page === "alerts") content = <Alerts />;
+  else if (page === "vms") content = <VMs />;
+  else if (page === "apm") content = <APM />;
 
   return (
-    <div style={{ padding: 30, fontFamily: "Arial" }}>
-      <h1>SkynetOps – Overview</h1>
-
-      <div
-        style={{
-          border: "1px solid #ddd",
-          padding: 20,
-          marginBottom: 20,
-          borderRadius: 8,
-        }}
-      >
-        <h2>System Health</h2>
-        <p>Status: {backendStatus}</p>
-      </div>
-
-      <div
-        style={{
-          border: "1px solid #ddd",
-          padding: 20,
-          borderRadius: 8,
-        }}
-      >
-        <h2>Connectivity Test</h2>
-        <button onClick={pingBackend}>Ping Backend</button>
-        <p>{pingStatus}</p>
-      </div>
+    <div style={{ display: "flex" }}>
+      <Sidebar onSelect={setPage} />
+      <div style={{ padding: 30, flex: 1 }}>{content}</div>
     </div>
   );
 }
