@@ -1,37 +1,54 @@
 import { useEffect, useState } from "react";
 
-const API_BASE =
-  "https://skynetops-stage1-ace5fq3dzbzbyev.swedencentral-01.azurewebsites.net/api";
+const API_BASE ="/api";
 
 function App() {
-  const [status, setStatus] = useState("Checking backend...");
-  const [pingResult, setPingResult] = useState("");
+  const [backendStatus, setBackendStatus] = useState("Checking...");
+  const [pingStatus, setPingStatus] = useState("");
 
+  // Health check (runs automatically)
   useEffect(() => {
     fetch(`${API_BASE}/health`)
-      .then(() => setStatus("✅ SkynetOps Backend is UP"))
-      .catch(() => setStatus("❌ SkynetOps Backend is DOWN"));
+      .then(() => setBackendStatus("✅ Backend UP"))
+      .catch(() => setBackendStatus("❌ Backend DOWN"));
   }, []);
 
+  // Ping button
   const pingBackend = () => {
-    setPingResult("Pinging...");
+    setPingStatus("Pinging...");
     fetch(`${API_BASE}/ping`)
       .then(res => res.text())
-      .then(text => setPingResult(`✅ Ping response: ${text}`))
-      .catch(() => setPingResult("❌ Ping failed"));
+      .then(text => setPingStatus(`✅ Ping response: ${text}`))
+      .catch(() => setPingStatus("❌ Ping failed"));
   };
 
   return (
-    <div style={{ padding: 30 }}>
-      <h1>SkynetOps UI</h1>
+    <div style={{ padding: 30, fontFamily: "Arial" }}>
+      <h1>SkynetOps – Overview</h1>
 
-      <p>Status: {status}</p>
+      <div
+        style={{
+          border: "1px solid #ddd",
+          padding: 20,
+          marginBottom: 20,
+          borderRadius: 8,
+        }}
+      >
+        <h2>System Health</h2>
+        <p>Status: {backendStatus}</p>
+      </div>
 
-      <button onClick={pingBackend}>
-        Ping Backend
-      </button>
-
-      <p>{pingResult}</p>
+      <div
+        style={{
+          border: "1px solid #ddd",
+          padding: 20,
+          borderRadius: 8,
+        }}
+      >
+        <h2>Connectivity Test</h2>
+        <button onClick={pingBackend}>Ping Backend</button>
+        <p>{pingStatus}</p>
+      </div>
     </div>
   );
 }
